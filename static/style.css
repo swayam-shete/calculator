@@ -1,0 +1,496 @@
+/* Aether Calculator CSS Stylesheet */
+
+:root {
+    --bg-base: #0b0f19;
+    --card-bg: rgba(17, 24, 39, 0.65);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+    
+    --fg-primary: #f9fafb;
+    --fg-secondary: #9ca3af;
+    --fg-muted: #6b7280;
+    
+    --accent-primary: #6366f1; /* Indigo 500 */
+    --accent-hover: #4f46e5; /* Indigo 600 */
+    --accent-glow: rgba(99, 102, 241, 0.4);
+    
+    --utility-bg: rgba(255, 255, 255, 0.06);
+    --utility-hover: rgba(255, 255, 255, 0.12);
+    
+    --num-bg: rgba(17, 24, 39, 0.4);
+    --num-hover: rgba(31, 41, 55, 0.6);
+    
+    --op-bg: rgba(245, 158, 11, 0.1);
+    --op-hover: rgba(245, 158, 11, 0.2);
+    --op-fg: #f59e0b; /* Amber 500 */
+    
+    --equals-gradient: linear-gradient(135deg, #6366f1, #d946ef); /* Indigo to Fuchsia */
+    --equals-hover: linear-gradient(135deg, #4f46e5, #c084fc);
+    
+    --danger-fg: #ef4444;
+    --danger-bg: rgba(239, 68, 68, 0.1);
+}
+
+/* CSS Reset & General */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--fg-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Background glows */
+.background-glows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.15;
+}
+
+.glow-1 {
+    background-color: var(--accent-primary);
+    top: -200px;
+    left: -100px;
+}
+
+.glow-2 {
+    background-color: #d946ef;
+    bottom: -200px;
+    right: -100px;
+}
+
+/* Main Layout Grid */
+.app-layout {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+}
+
+.calculator-container {
+    display: flex;
+    gap: 24px;
+    align-items: stretch;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glassmorphic Calculator Card */
+.calculator-card {
+    flex: 1;
+    max-width: 440px;
+    min-width: 320px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 32px;
+    padding: 28px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 50px rgba(99, 102, 241, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Card Header */
+.calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    color: var(--fg-secondary);
+}
+
+.accent-icon {
+    color: var(--accent-primary);
+    filter: drop-shadow(0 0 6px var(--accent-primary));
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--fg-secondary);
+    cursor: pointer;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.icon-btn:hover {
+    color: var(--fg-primary);
+    background: var(--utility-bg);
+    border-color: var(--border-color);
+}
+
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
+/* Display Screen */
+.calc-display {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    min-height: 140px;
+    word-break: break-all;
+    position: relative;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.expr-row {
+    font-family: 'Fira Code', monospace;
+    font-size: 15px;
+    color: var(--fg-secondary);
+    min-height: 24px;
+    text-align: right;
+    line-height: 1.5;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; /* Firefox */
+}
+
+.expr-row::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+.result-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    font-family: 'Fira Code', monospace;
+}
+
+.result-text {
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--fg-primary);
+    letter-spacing: -1px;
+    line-height: 1.2;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+    text-align: right;
+    scrollbar-width: none;
+}
+
+.result-text::-webkit-scrollbar {
+    display: none;
+}
+
+.result-text.error {
+    color: var(--danger-fg);
+    font-size: 16px;
+    font-weight: 500;
+    white-space: normal;
+    text-align: right;
+}
+
+.cursor {
+    display: inline-block;
+    width: 3px;
+    height: 32px;
+    background-color: var(--accent-primary);
+    margin-left: 6px;
+    border-radius: 2px;
+    animation: blink 1s infinite alternate;
+}
+
+.result-text.error ~ .cursor {
+    background-color: var(--danger-fg);
+    height: 16px;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    49% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* Keypad Grid */
+.calc-keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.key {
+    border: 1px solid var(--border-color);
+    outline: none;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: 600;
+    height: 62px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--fg-primary);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.key:active {
+    transform: scale(0.94);
+}
+
+/* Key Types styling */
+.btn-num {
+    background-color: var(--num-bg);
+}
+
+.btn-num:hover {
+    background-color: var(--num-hover);
+    border-color: var(--border-hover);
+}
+
+.btn-utility {
+    background-color: var(--utility-bg);
+}
+
+.btn-utility:hover {
+    background-color: var(--utility-hover);
+    border-color: var(--border-hover);
+}
+
+.btn-op {
+    background-color: var(--op-bg);
+    border-color: rgba(245, 158, 11, 0.15);
+    color: var(--op-fg);
+    font-size: 22px;
+}
+
+.btn-op:hover {
+    background-color: var(--op-hover);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.btn-equals {
+    grid-column: span 4;
+    background: var(--equals-gradient);
+    border: none;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    box-shadow: 0 8px 16px -4px rgba(99, 102, 241, 0.3), 0 0 10px rgba(99, 102, 241, 0.1);
+}
+
+.btn-equals:hover {
+    background: var(--equals-hover);
+    box-shadow: 0 10px 20px -4px rgba(99, 102, 241, 0.4), 0 0 20px rgba(99, 102, 241, 0.2);
+}
+
+/* Shake Animation on Screen Error */
+.calc-display.shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    border-color: rgba(239, 68, 68, 0.25);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.15), inset 0 2px 8px rgba(0,0,0,0.4);
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-2px, 0, 0); }
+    20%, 80% { transform: translate3d(4px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+    40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+/* History Panel */
+.history-panel {
+    width: 320px;
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 32px;
+    padding: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 574px; /* Matches calculator height roughly */
+}
+
+.history-panel.collapsed {
+    width: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateX(30px);
+    border-color: transparent;
+    pointer-events: none;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.history-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--fg-secondary);
+    letter-spacing: 0.5px;
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-right: 4px;
+}
+
+/* Custom Scrollbar for History */
+.history-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.history-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.empty-history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 100%;
+    color: var(--fg-muted);
+    font-size: 14px;
+    padding: 40px 0;
+}
+
+.empty-history i {
+    font-size: 28px;
+}
+
+.history-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.history-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+}
+
+.history-item .hist-expr {
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    color: var(--fg-secondary);
+    text-align: right;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.history-item .hist-expr::-webkit-scrollbar {
+    display: none;
+}
+
+.history-item .hist-result {
+    font-family: 'Fira Code', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .calculator-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .history-panel {
+        max-width: 440px;
+        width: 100%;
+        max-height: 300px;
+    }
+
+    .history-panel.collapsed {
+        height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        transform: translateY(30px);
+        margin: 0;
+    }
+}

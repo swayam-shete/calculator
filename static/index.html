@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aether Calculator - Expression Calculator</title>
+    <!-- Google Fonts: Plus Jakarta Sans for UI, Fira Code for Calculator Screen -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-glows">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
+
+    <main class="app-layout">
+        <div class="calculator-container">
+            <!-- Calculator Card -->
+            <div class="calculator-card" id="calculator-card">
+                <header class="calc-header">
+                    <div class="brand">
+                        <i class="fa-solid fa-calculator accent-icon"></i>
+                        <span>AETHER</span>
+                    </div>
+                    <button class="icon-btn btn-history-toggle" id="history-toggle" title="Toggle History">
+                        <i class="fa-solid fa-history"></i>
+                    </button>
+                </header>
+
+                <!-- Calculator Display -->
+                <div class="calc-display">
+                    <div class="expr-row" id="expr-display" placeholder="0"></div>
+                    <div class="result-row">
+                        <span class="result-text" id="result-display">0</span>
+                        <span class="cursor" id="cursor"></span>
+                    </div>
+                </div>
+
+                <!-- Keypad -->
+                <div class="calc-keypad">
+                    <!-- Row 1: Utility / Grouping -->
+                    <button class="key btn-utility" data-key="Clear">C</button>
+                    <button class="key btn-utility" data-key="Backspace" title="Backspace">
+                        <i class="fa-solid fa-delete-left"></i>
+                    </button>
+                    <button class="key btn-utility" data-key="(">(</button>
+                    <button class="key btn-utility" data-key=")">)</button>
+
+                    <!-- Row 2: Numbers & division -->
+                    <button class="key btn-num" data-key="7">7</button>
+                    <button class="key btn-num" data-key="8">8</button>
+                    <button class="key btn-num" data-key="9">9</button>
+                    <button class="key btn-op" data-key="/">÷</button>
+
+                    <!-- Row 3: Numbers & multiplication -->
+                    <button class="key btn-num" data-key="4">4</button>
+                    <button class="key btn-num" data-key="5">5</button>
+                    <button class="key btn-num" data-key="6">6</button>
+                    <button class="key btn-op" data-key="*">×</button>
+
+                    <!-- Row 4: Numbers & subtraction -->
+                    <button class="key btn-num" data-key="1">1</button>
+                    <button class="key btn-num" data-key="2">2</button>
+                    <button class="key btn-num" data-key="3">3</button>
+                    <button class="key btn-op" data-key="-">−</button>
+
+                    <!-- Row 5: Decimals, zero, exponent, addition -->
+                    <button class="key btn-num" data-key="0">0</button>
+                    <button class="key btn-num" data-key=".">.</button>
+                    <button class="key btn-op" data-key="^" title="Power">^</button>
+                    <button class="key btn-op" data-key="+">+</button>
+
+                    <!-- Row 6: Equals (Spans full width) -->
+                    <button class="key btn-equals" data-key="=">=</button>
+                </div>
+            </div>
+
+            <!-- History Panel -->
+            <aside class="history-panel" id="history-panel">
+                <div class="history-header">
+                    <h3>Calculation History</h3>
+                    <button class="icon-btn btn-clear-history" id="clear-history" title="Clear History">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+                <div class="history-list" id="history-list">
+                    <div class="empty-history">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <p>No history yet</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>
